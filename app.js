@@ -17,6 +17,14 @@ fs.writeFileSync(keyPath, process.env.IOT_PRIVATE_KEY);
 fs.writeFileSync(certPath, process.env.IOT_CERTIFICATE);
 fs.writeFileSync(caPath, process.env.AWS_IOT_CA_CERT);
 
+// Log the file paths and contents for debugging
+console.log("Key Path:", keyPath);
+console.log("Cert Path:", certPath);
+console.log("CA Path:", caPath);
+console.log("Key Content:", fs.readFileSync(keyPath, 'utf-8'));
+console.log("Cert Content:", fs.readFileSync(certPath, 'utf-8'));
+console.log("CA Content:", fs.readFileSync(caPath, 'utf-8'));
+
 // Create the device object with the temporary file paths
 const device = awsIot.device({
     keyPath: keyPath,
