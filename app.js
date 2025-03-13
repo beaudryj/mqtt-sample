@@ -1,10 +1,27 @@
 const awsIot = require("aws-iot-device-sdk");
+const fs = require("fs");
+const path = require("path");
 
-// Create the device object with environment variables
+// Create a temporary directory for the certificate files
+const CERTS_DIR = "/tmp/certs";
+if (!fs.existsSync(CERTS_DIR)) {
+    fs.mkdirSync(CERTS_DIR, { recursive: true });
+}
+
+// Write environment variables to temporary files
+const keyPath = path.join(CERTS_DIR, "private.key");
+const certPath = path.join(CERTS_DIR, "certificate.pem");
+const caPath = path.join(CERTS_DIR, "AmazonRootCA1.pem");
+
+fs.writeFileSync(keyPath, process.env.IOT_PRIVATE_KEY);
+fs.writeFileSync(certPath, process.env.IOT_CERTIFICATE);
+fs.writeFileSync(caPath, process.env.AWS_IOT_CA_CERT);
+
+// Create the device object with the temporary file paths
 const device = awsIot.device({
-    keyPath: Buffer.from(process.env.IOT_PRIVATE_KEY, 'base64').toString('utf-8'),
-    certPath: Buffer.from(process.env.IOT_CERTIFICATE, 'base64').toString('utf-8'),
-    caPath: Buffer.from(process.env.AWS_IOT_CA_CERT, 'base64').toString('utf-8'),
+    keyPath: keyPath,
+    certPath: certPath,
+    caPath: caPath,
     clientId: `ecs-backup-client-${Math.floor(Math.random() * 1000)}`,
     host: process.env.MQTT_URL.replace("mqtts://", "").split(":")[0],
     protocol: "mqtts"
