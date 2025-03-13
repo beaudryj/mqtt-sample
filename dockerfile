@@ -3,8 +3,8 @@ FROM node:16-alpine
 WORKDIR /app
 
 # Install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install --non-interactive --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm install --production
 
 # Copy application source
 COPY . .
