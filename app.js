@@ -32,7 +32,8 @@ const device = awsIot.device({
     caPath: caPath,
     clientId: `ecs-backup-client-${Math.floor(Math.random() * 1000)}`,
     host: process.env.MQTT_URL.replace("mqtts://", "").split(":")[0],
-    protocol: "mqtts"
+    protocol: "mqtts",
+    debug: true // Enable debug logging
 });
 
 // Handle connection
