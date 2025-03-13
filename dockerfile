@@ -12,6 +12,9 @@ COPY . .
 # Install curl for health checks
 RUN apk add --no-cache curl
 
+# Copy the startup script
+COPY startup.sh /usr/local/bin/startup.sh
+
 # Set environment variables (example values, replace with actual values or use secrets)
 ENV MQTT_URL=mqtts://your-iot-endpoint.amazonaws.com:8883
 ENV IOT_CERTIFICATE=your-certificate-pem
