@@ -30,7 +30,7 @@ const device = awsIot.device({
     keyPath: keyPath,
     certPath: certPath,
     caPath: caPath,
-    clientId: "ecs-backup-client",
+    clientId: `ecs-backup-client-${Math.floor(Math.random() * 1000)}`,
     host: process.env.MQTT_URL.replace("mqtts://", "").split(":")[0],
     protocol: "mqtts",
     reconnectPeriod: 10000,  // 🔄 Increase to 10 seconds
