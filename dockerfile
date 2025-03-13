@@ -1,20 +1,25 @@
-# Use a small Node.js image
-FROM node:18-alpine
+FROM node:16-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json (no yarn.lock needed)
-COPY package.json ./
-
-# Install dependencies using npm
-RUN npm install --omit=dev
+# Install dependencies
+COPY package.json yarn.lock ./
+RUN yarn install --non-interactive --frozen-lockfile
 
 # Copy application source
 COPY . .
 
-# Expose ports (if needed for debugging)
-EXPOSE 1883 8883
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Set environment variables (example values, replace with actual values or use secrets)
+ENV MQTT_URL=mqtts://your-iot-endpoint.amazonaws.com:8883
+ENV IOT_CERTIFICATE=your-certificate-pem
+ENV IOT_PRIVATE_KEY=your-private-key
+ENV AWS_IOT_CA_CERT=your-ca-cert
+
+# Expose port
+EXPOSE 8090
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
