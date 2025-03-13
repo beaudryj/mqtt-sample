@@ -2,9 +2,9 @@ const awsIot = require("aws-iot-device-sdk");
 
 // Create the device object with environment variables
 const device = awsIot.device({
-    keyPath: Buffer.from(process.env.IOT_PRIVATE_KEY, 'base64'),
-    certPath: Buffer.from(process.env.IOT_CERTIFICATE, 'base64'),
-    caPath: Buffer.from(process.env.AWS_IOT_CA_CERT, 'base64'),
+    keyPath: Buffer.from(process.env.IOT_PRIVATE_KEY, 'base64').toString('utf-8'),
+    certPath: Buffer.from(process.env.IOT_CERTIFICATE, 'base64').toString('utf-8'),
+    caPath: Buffer.from(process.env.AWS_IOT_CA_CERT, 'base64').toString('utf-8'),
     clientId: `ecs-backup-client-${Math.floor(Math.random() * 1000)}`,
     host: process.env.MQTT_URL.replace("mqtts://", "").split(":")[0],
     protocol: "mqtts"
