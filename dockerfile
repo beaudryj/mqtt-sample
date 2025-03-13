@@ -4,14 +4,11 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package.json (skip yarn.lock if missing)
+# Copy package.json (no yarn.lock needed)
 COPY package.json ./
 
-# If yarn.lock exists, copy it too
-COPY yarn.lock ./ || true
-
-# Install dependencies
-RUN yarn install --frozen-lockfile || yarn install
+# Install dependencies using npm
+RUN npm install --omit=dev
 
 # Copy application source
 COPY . .
@@ -20,4 +17,4 @@ COPY . .
 EXPOSE 1883 8883
 
 # Start the application
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
