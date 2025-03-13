@@ -30,36 +30,27 @@ const device = awsIot.device({
     keyPath: keyPath,
     certPath: certPath,
     caPath: caPath,
-    clientId: `ecs-backup-client-${Math.floor(Math.random() * 1000)}`,
+    clientId: "ecs-backup-client",
     host: process.env.MQTT_URL.replace("mqtts://", "").split(":")[0],
     protocol: "mqtts",
-    debug: true // Enable debug logging
+    reconnectPeriod: 10000,  // 🔄 Increase to 10 seconds
+    keepalive: 60,           // 🔄 Extend keepalive to prevent frequent drops
+    debug: true
 });
 
 // Handle connection
 device.on("connect", function () {
-    console.log("✅ Connected to AWS IoT MQTT!");
+    console.log("✅ Fully connected to AWS IoT MQTT!");
     
-    // Subscribe to a test topic
-    device.subscribe("test/topic", (err, granted) => {
-        if (err) {
-            console.error("❌ Subscription error:", err);
-        } else {
-            console.log("📥 Subscribed to topic:", granted);
-        }
-    });
-
-    // Publish every hour
-    setInterval(() => {
-        const message = { message: "Hello from Backup MQTT Client!" };
-        device.publish("test/topic", JSON.stringify(message), (err) => {
+    setTimeout(() => {  // 🔄 Add a delay before subscribing
+        device.subscribe("test/topic", (err, granted) => {
             if (err) {
-                console.error("❌ Publish error:", err);
+                console.error("❌ Subscription error:", err);
             } else {
-                console.log("📢 Published:", message);
+                console.log("📥 Subscribed to topic:", granted);
             }
         });
-    }, 3600000); // 1 hour in milliseconds
+    }, 2000);  // 2-second delay to prevent AWS disconnects
 });
 
 // Handle incoming messages
