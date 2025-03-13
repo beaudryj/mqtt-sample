@@ -70,6 +70,7 @@ device.on("message", function (topic, payload) {
 // Handle errors
 device.on("error", function (error) {
     console.error("❌ MQTT Error:", error);
+    console.error(error.stack);
 });
 
 // Handle reconnection
