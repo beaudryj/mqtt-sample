@@ -1,0 +1,55 @@
+# Node.js dependencies
+node_modules/
+yarn.lock
+package-lock.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# AWS IoT certificates (prevent committing sensitive credentials)
+certs/
+*.pem
+*.key
+*.crt
+*.csr
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# Docker files
+docker-compose.yml
+.dockerignore
+.DS_Store
+
+# Terraform state files (avoid committing sensitive infra data)
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# AWS-specific ignores
+.aws/
+.aws/config
+.aws/credentials
+
+# GitHub Actions logs & temporary files
+.github/*.log
+.github/workflows/*.log
+.github/workflows/*.bak
+
+# Miscellaneous
+.idea/          # JetBrains IDEs (WebStorm, IntelliJ, etc.)
+.vscode/        # VSCode settings
+*.swp           # Swap files (Vim)
+*.swo           # Swap files (Vim)
+*.bak           # Backup files
+Thumbs.db       # Windows thumbnail cache
