@@ -41,16 +41,17 @@ const device = awsIot.device({
 // Handle connection
 device.on("connect", function () {
     console.log("✅ Fully connected to AWS IoT MQTT!");
-    
-    setTimeout(() => {  // 🔄 Add a delay before subscribing
-        device.subscribe("test/topic", (err, granted) => {
+
+    setTimeout(() => {
+        console.log("📥 Attempting subscription...");
+        device.subscribe("test/topic", { qos: 1 }, (err, granted) => {
             if (err) {
                 console.error("❌ Subscription error:", err);
             } else {
-                console.log("📥 Subscribed to topic:", granted);
+                console.log("✅ Successfully subscribed:", granted);
             }
         });
-    }, 2000);  // 2-second delay to prevent AWS disconnects
+    }, 2000);  
 });
 
 // Handle incoming messages
